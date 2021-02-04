@@ -1,3 +1,7 @@
+function notUndefined<TValue>(value: TValue | undefined): value is TValue {
+  return value !== undefined;
+}
+
 const isOnlyOnePositionUsed = (firstPos: number, secondPos: number, positions: Array<number>) => {
   return (positions.includes(firstPos) || positions.includes(secondPos)) &&
     ![firstPos, secondPos].every((pos) => positions.includes(pos))
@@ -14,7 +18,7 @@ export const adhereToNewTobogganCorporatePolicy = (
   const regex = new RegExp(letter, 'g');
   const positions = [...password.matchAll(regex)]
     .map((el) => el.index)
-    .filter((el): el is number => el !== undefined)
+    .filter(notUndefined)
     .map((el) => el + 1);
   return isOnlyOnePositionUsed(firstPos, secondPos, positions);
 };
